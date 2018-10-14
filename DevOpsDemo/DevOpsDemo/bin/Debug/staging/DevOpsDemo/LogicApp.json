@@ -65,7 +65,7 @@
               "inputs": {
                 "statusCode": 200,
                 "body": {
-                  "Status": "Success"
+                  "Status": " Receieved request with name:@{triggerBody()?['Name']}"
                 }
               },
               "runAfter": {}
@@ -77,7 +77,14 @@
               "type": "Request",
               "kind": "Http",
               "inputs": {
-                "schema": {}
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Name": {
+                      "type": "string"
+                    }
+                  }
+                }
               }
             }
           },

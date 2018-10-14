@@ -65,7 +65,7 @@
               "inputs": {
                 "statusCode": 200,
                 "body": {
-                  "Status": "Receieved request with name:@{triggerBody()?['Name']}"
+                  "Status": " Receieved request with name:@{triggerBody()?['Name']}"
                 }
               },
               "runAfter": {}

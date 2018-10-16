@@ -43,6 +43,11 @@
       "metadata": {
         "description": "Location of the Logic App."
       }
+    },
+    "LogicAppIntegrationAccount": {
+      "type": "string",
+      "minLength": 1,
+      "defaultValue": "/subscriptions/bd24c633-af54-4962-9a93-2d965fac3c45/resourcegroups/DemoResourceGroup/providers/Microsoft.Logic/integrationAccounts/DevOpsDemoIntAcc"
     }
   },
   "variables": {},
@@ -64,10 +69,25 @@
               "kind": "http",
               "inputs": {
                 "statusCode": 200,
-                "body": {
-                  "Status": " Receieved request with name:@{triggerBody()?['Name']}"
+                "body": "@body('Transform_JSON_to_JSON')"
+              },
+              "runAfter": {
+                "Transform_JSON_to_JSON": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "Transform_JSON_to_JSON": {
+              "inputs": {
+                "content": "@triggerBody()",
+                "integrationAccount": {
+                  "map": {
+                    "name": "FullNameliquidtemp"
+                  }
                 }
               },
+              "type": "Liquid",
+              "kind": "JsonToJson",
               "runAfter": {}
             }
           },
@@ -80,8 +100,16 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "Name": {
-                      "type": "string"
+                    "Request": {
+                      "type": "object",
+                      "properties": {
+                        "FirstName": {
+                          "type": "string"
+                        },
+                        "LastName": {
+                          "type": "string"
+                        }
+                      }
                     }
                   }
                 }
@@ -91,7 +119,10 @@
           "contentVersion": "1.0.0.0",
           "outputs": {}
         },
-        "parameters": {}
+        "parameters": {},
+        "integrationAccount": {
+          "id": "[parameters('LogicAppIntegrationAccount')]"
+        }
       }
     }
   ],

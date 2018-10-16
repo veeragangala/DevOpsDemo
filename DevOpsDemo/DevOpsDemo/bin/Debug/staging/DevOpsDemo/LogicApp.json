@@ -48,6 +48,27 @@
       "type": "string",
       "minLength": 1,
       "defaultValue": "/subscriptions/bd24c633-af54-4962-9a93-2d965fac3c45/resourcegroups/DemoResourceGroup/providers/Microsoft.Logic/integrationAccounts/DevOpsDemoIntAcc"
+    },
+    "azurefile_1_Connection_Name": {
+      "type": "string",
+      "defaultValue": "azurefile"
+    },
+    "azurefile_1_Connection_DisplayName": {
+      "type": "string",
+      "defaultValue": "SA_Connection"
+    },
+    "azurefile_1_accountName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the storage account the connector should use."
+      },
+      "defaultValue": "demostorageaccountgpv2"
+    },
+    "azurefile_1_accessKey": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Specify a valid primary/secondary storage account access key."
+      }
     }
   },
   "variables": {},
@@ -85,7 +106,7 @@
                 }
               },
               "runAfter": {
-                "Transform_JSON_to_JSON": [
+                "Create_file": [
                   "Succeeded"
                 ]
               }
@@ -102,9 +123,42 @@
               "type": "Liquid",
               "kind": "JsonToJson",
               "runAfter": {}
+            },
+            "Create_file": {
+              "type": "ApiConnection",
+              "inputs": {
+                "host": {
+                  "connection": {
+                    "name": "@parameters('$connections')['azurefile']['connectionId']"
+                  }
+                },
+                "method": "post",
+                "body": "@body('Transform_JSON_to_JSON')",
+                "path": "/datasets/default/files",
+                "queries": {
+                  "folderPath": "/dev",
+                  "name": "@{guid()}.json",
+                  "queryParametersSingleEncoded": true
+                }
+              },
+              "runAfter": {
+                "Transform_JSON_to_JSON": [
+                  "Succeeded"
+                ]
+              },
+              "runtimeConfiguration": {
+                "contentTransfer": {
+                  "transferMode": "Chunked"
+                }
+              }
             }
           },
-          "parameters": {},
+          "parameters": {
+            "$connections": {
+              "defaultValue": {},
+              "type": "Object"
+            }
+          },
           "triggers": {
             "manual": {
               "type": "Request",
@@ -132,9 +186,38 @@
           "contentVersion": "1.0.0.0",
           "outputs": {}
         },
-        "parameters": {},
+        "parameters": {
+          "$connections": {
+            "value": {
+              "azurefile": {
+                "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'azurefile')]",
+                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azurefile_1_Connection_Name'))]",
+                "connectionName": "[parameters('azurefile_1_Connection_Name')]"
+              }
+            }
+          }
+        },
         "integrationAccount": {
           "id": "[parameters('LogicAppIntegrationAccount')]"
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/connections', parameters('azurefile_1_Connection_Name'))]"
+      ]
+    },
+    {
+      "type": "MICROSOFT.WEB/CONNECTIONS",
+      "apiVersion": "2016-06-01",
+      "name": "[parameters('azurefile_1_Connection_Name')]",
+      "location": "[parameters('logicAppLocation')]",
+      "properties": {
+        "api": {
+          "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('logicAppLocation'), '/managedApis/', 'azurefile')]"
+        },
+        "displayName": "[parameters('azurefile_1_Connection_DisplayName')]",
+        "parameterValues": {
+          "accountName": "[parameters('azurefile_1_accountName')]",
+          "accessKey": "[parameters('azurefile_1_accessKey')]"
         }
       }
     }

@@ -69,7 +69,13 @@
       "metadata": {
         "description": "Specify a valid primary/secondary storage account access key."
       }
-        
+
+    },
+    "fileSharePath": {
+      "type": "string",
+      "metadata": {
+        "description": "ShareFilePath for FileStorage"
+      }
     }
   },
   "variables": {},
@@ -137,7 +143,7 @@
                 "body": "@body('Transform_JSON_to_JSON')",
                 "path": "/datasets/default/files",
                 "queries": {
-                  "folderPath": "/dev",
+                  "folderPath": "[parameters('fileSharePath')]",
                   "name": "@{guid()}.json",
                   "queryParametersSingleEncoded": true
                 }

@@ -6,11 +6,16 @@
       "value": "DevOpsDemo"
     },
     "azurefile_1_accessKey": {
-        "reference": {
-            "keyVault": {
-                "id": "/subscriptions/bd24c633-af54-4962-9a93-2d965fac3c45/resourceGroups/DemoResourceGroup/providers/Microsoft.KeyVault/vaults/DevOpsDemo-Vault"
-            },
-            "secretName": "SAAccessKey1"
-        } }
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/bd24c633-af54-4962-9a93-2d965fac3c45/resourceGroups/DemoResourceGroup/providers/Microsoft.KeyVault/vaults/DevOpsDemo-Vault"
+        },
+        "secretName": "SAAccessKey1"
+      }
+
+    },
+    "fileSharePath": {
+      "value": "/dev"
+    }
   }
 }

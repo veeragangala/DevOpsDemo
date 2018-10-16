@@ -29,6 +29,8 @@
       <Visible>False</Visible>
     </None>
     <Content Include="Deploy-AzureResourceGroup.ps1" />
+    <Content Include="LogicApp_sit.parameters.json" />
+    <Content Include="LogicApp_dev.parameters.json" />
     <Content Include="LogicApp.json" />
     <Content Include="LogicApp.parameters.json" />
     <None Include="FullNameliquidtemp.liquid" />

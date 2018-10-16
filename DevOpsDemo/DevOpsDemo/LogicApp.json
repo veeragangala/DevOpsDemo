@@ -69,7 +69,6 @@
       "metadata": {
         "description": "Specify a valid primary/secondary storage account access key."
       }
-
     },
     "fileSharePath": {
       "type": "string",
@@ -97,6 +96,9 @@
               "kind": "http",
               "inputs": {
                 "statusCode": 200,
+                "headers": {
+                  "test": "123"
+                },
                 "body": "@body('Transform_JSON_to_JSON')",
                 "schema": {
                   "type": "object",

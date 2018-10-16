@@ -31,6 +31,7 @@
     <Content Include="Deploy-AzureResourceGroup.ps1" />
     <Content Include="LogicApp.json" />
     <Content Include="LogicApp.parameters.json" />
+    <None Include="FullNameliquidtemp.liquid" />
   </ItemGroup>
   <Target Name="GetReferenceAssemblyPaths" />
 </Project>

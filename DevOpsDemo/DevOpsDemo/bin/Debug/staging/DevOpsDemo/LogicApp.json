@@ -69,7 +69,20 @@
               "kind": "http",
               "inputs": {
                 "statusCode": 200,
-                "body": "@body('Transform_JSON_to_JSON')"
+                "body": "@body('Transform_JSON_to_JSON')",
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Response": {
+                      "type": "object",
+                      "properties": {
+                        "FullName": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
               },
               "runAfter": {
                 "Transform_JSON_to_JSON": [

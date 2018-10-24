@@ -97,7 +97,7 @@
               "inputs": {
                 "statusCode": 200,
                 "headers": {
-                  "test": "123"
+                  "test1": "123"
                 },
                 "body": "@body('Transform_JSON_to_JSON')",
                 "schema": {

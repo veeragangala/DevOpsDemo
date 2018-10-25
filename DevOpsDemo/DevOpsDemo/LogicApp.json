@@ -99,7 +99,9 @@
                 "headers": {
                   "test1": "123"
                 },
-                "body": "@body('Transform_JSON_to_JSON')",
+                "body": {
+                  "Status": "Success"
+                },
                 "schema": {
                   "type": "object",
                   "properties": {
